@@ -5,6 +5,7 @@ import { useLoadingContext } from '../../context/LoadingContext';
 import { githubApi } from '../../api/GithubIssueApi';
 import { useIssueContext } from '../../context/IssueContext';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function IssueDetail() {
   const { isLoading, setLoading } = useLoadingContext();
@@ -48,7 +49,10 @@ export default function IssueDetail() {
           <div>
             <img src={issueDetailInfo.profileUrl} alt="profile_img" />
           </div>
-          <ReactMarkdown children={issueDetailInfo.body} />
+          <ReactMarkdown
+            children={issueDetailInfo.body}
+            remarkPlugins={[remarkGfm]}
+          />
         </>
       )}
     </div>

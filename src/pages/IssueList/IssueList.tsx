@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useLoadingContext } from '../../context/LoadingContext';
 import { githubApi } from '../../api/GithubIssueApi';
 import { IssueInfo, useIssueContext } from '../../context/IssueContext';
@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 export default function IssueList() {
   const { isLoading, setLoading } = useLoadingContext();
   const { issueListInfo, getIssueListInfo } = useIssueContext();
+
+  const targetRef = useRef<HTMLDivElement>(null);
 
   const owner = IssueInfo.OWNER;
   const repo = IssueInfo.REPO;
@@ -28,11 +30,28 @@ export default function IssueList() {
     };
     getIssueLists();
   }, []);
+
+  const infiniteScroll = useCallback(() => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight) {
+      // 페이지 끝에 도달하면 추가 데이터를 받아온다
+      // getIssueListInfo();
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', infiniteScroll, true);
+    return () => window.removeEventListener('scroll', infiniteScroll, true);
+  }, [infiniteScroll]);
+
   return (
     <div>
       {isLoading && <div>로딩중입니다.</div>}
+      <div ref={targetRef} style={{ height: '10px' }} />
       {!isLoading && (
-        <ul>
+        <ul onScroll={infiniteScroll}>
           {issueListInfo?.map((issue) => {
             const issueId = issue.issueNumber;
             return (
