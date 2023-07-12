@@ -14,7 +14,7 @@ interface LoadingProviderProps {
   children: ReactNode;
 }
 
-function LoadingProvider({ children }: LoadingProviderProps) {
+export function LoadingProvider({ children }: LoadingProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const setLoading = (isLoading: boolean) => {
@@ -28,6 +28,4 @@ function LoadingProvider({ children }: LoadingProviderProps) {
   );
 }
 
-const useLoadingContext = () => useContext(LoadingContext);
-
-export { LoadingProvider, useLoadingContext };
+export const useLoadingContext = () => useContext(LoadingContext);
