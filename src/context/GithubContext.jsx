@@ -2,8 +2,9 @@ import { createContext, useState } from 'react';
 import { getIssueList } from '../utils';
 
 const initialContext = {
-  iseeList: [],
+  issueList: [],
   issue: null,
+  fetchIssueList: () => {}, // null
 };
 
 export const GithubContext = createContext(initialContext);
