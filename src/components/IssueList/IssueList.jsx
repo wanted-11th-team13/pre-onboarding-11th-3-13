@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { GithubContext } from '../../context/GithubContext';
 import moment from 'moment';
+import * as S from './IssueList.styled';
+import { Link } from 'react-router-dom';
 
 export function IssueList() {
   const { issueList, fetchIssueList } = useContext(GithubContext);
@@ -9,22 +11,23 @@ export function IssueList() {
   }, []);
   return (
     <main>
-      <h2>Issue List</h2>
-      <ul>
+      <S.IssueWrap>
         {issueList.map((issue) => (
-          <li key={issue.id}>
-            <span>
-              #{issue.number}
-              {issue.title}
-            </span>
-            <span> 작성자 : {issue.user.login}</span>
-            <span>
+          <S.IssueList key={issue.id}>
+            <S.IssueContainer>
+              <S.IssueNumber>#{issue.number}</S.IssueNumber>
+              <S.IssueTitle>{issue.title}</S.IssueTitle>
+            </S.IssueContainer>
+
+            <S.IssueWriter> 작성자 : {issue.user.login}</S.IssueWriter>
+            <S.IssueDate>
               작성일 : {moment(issue.created_at).format('YYYY-MM-DD')}
-            </span>
-            <span>🙋‍♂️{issue.comments}</span>
-          </li>
+            </S.IssueDate>
+
+            <S.IssueComments>🙋‍♂️{issue.comments}</S.IssueComments>
+          </S.IssueList>
         ))}
-      </ul>
+      </S.IssueWrap>
     </main>
   );
 }
