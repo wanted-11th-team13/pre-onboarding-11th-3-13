@@ -57,7 +57,7 @@ const labelStyle = (color: string) => css`
   display: inline;
   border: 2px solid ${'#' + color};
   border-radius: 10px;
-  margin: 5px 3px 20px;
+  margin: 10px 3px 20px;
 `;
 
 const line = css`
@@ -69,6 +69,25 @@ const line = css`
 
 const refPosition = css`
   height: 50px;
+`;
+
+const adImg = css`
+  height: 200px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+`;
+
+const adTag = css`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px 20px;
+  background-color: #ff0000;
+  color: #ffffff;
 `;
 
 export default function IssueList() {
@@ -87,7 +106,6 @@ export default function IssueList() {
       setPage((prevPage) => prevPage + 1);
     }
   }, isLoading);
-  console.log(page);
 
   const owner = IssueInfo.OWNER;
   const repo = IssueInfo.REPO;
@@ -143,6 +161,8 @@ export default function IssueList() {
     getIssueLists();
   }, [page]);
 
+  const adZone = (index: number) => (index + 1) % 5 === 0;
+
   return (
     <div>
       {isLoading && <div>로딩중입니다.</div>}
@@ -151,47 +171,65 @@ export default function IssueList() {
           {issueListInfo?.map((issue, index) => {
             const issueId = issue.issueNumber;
             const date = issue.createdAt.split('T')[0].split('-');
+            const isAdZone = adZone(index);
             return (
               <li
-                css={itemStyle}
+                css={[itemStyle]}
                 key={index}
-                onClick={() =>
-                  navigate(`/issue/${issueId}`, {
-                    state: {
-                      owner,
-                      repo,
-                      issueId,
-                    },
-                  })
-                }
+                onClick={() => {
+                  if (isAdZone) {
+                    window.location.href = 'https://www.wanted.co.kr/';
+                  } else {
+                    navigate(`/issue/${issueId}`, {
+                      state: {
+                        owner,
+                        repo,
+                        issueId,
+                      },
+                    });
+                  }
+                }}
               >
-                <div css={flexAlign}>
-                  <div>
-                    <div css={issueTitleArea}>
-                      <div>{index}</div>
-                      <div>#{issue.issueNumber}</div>
-                      <div css={issueTitle}>
-                        {issue.title.length > 35
-                          ? issue.title.slice(0, 35) + '...'
-                          : issue.title}
-                      </div>
-                    </div>
-                    <div css={issueTextArea}>
-                      <div>작성자: {issue.author}</div>
-                      <div css={issueText}>
-                        작성일: {`${date[0]}년 ${date[1]}월 ${date[2]}일`}
-                      </div>
-                    </div>
+                {isAdZone ? (
+                  <div css={adImg}>
+                    <img
+                      style={{ width: '100%' }}
+                      src="https://images.unsplash.com/photo-1495783436593-3015f0bc6f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGFkdmVydGlzaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60"
+                      alt="광고 이미지"
+                    />
+                    <div css={adTag}>ad</div>
                   </div>
-                  <div css={commentStyle}>코멘트: {issue.commentCount}</div>
-                </div>
-                <div>
-                  {issue.labels.map((label) => (
-                    <button key={label.id} css={labelStyle(label.color)}>
-                      {label.name}
-                    </button>
-                  ))}
-                </div>
+                ) : (
+                  <>
+                    <div css={flexAlign}>
+                      <div>
+                        <div css={issueTitleArea}>
+                          <div>{index}</div>
+                          <div>#{issue.issueNumber}</div>
+                          <div css={issueTitle}>
+                            {issue.title.length > 35
+                              ? issue.title.slice(0, 35) + '...'
+                              : issue.title}
+                          </div>
+                        </div>
+                        <div css={issueTextArea}>
+                          <div>작성자: {issue.author}</div>
+                          <div css={issueText}>
+                            작성일: {`${date[0]}년 ${date[1]}월 ${date[2]}일`}
+                          </div>
+                        </div>
+                      </div>
+                      <div css={commentStyle}>코멘트: {issue.commentCount}</div>
+                    </div>
+                    <div>
+                      {issue.labels.map((label) => (
+                        <button key={label.id} css={labelStyle(label.color)}>
+                          {label.name}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
                 <div css={line} />
               </li>
             );
