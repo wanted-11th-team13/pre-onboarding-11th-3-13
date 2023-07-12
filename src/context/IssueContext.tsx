@@ -33,10 +33,21 @@ interface IssueProviderProps {
 
 export function IssueProvider({ children }: IssueProviderProps) {
   const [issueListInfo, setIssueListInfo] = useState<IssueProps[]>([]);
-  const [issueDetailInfo, setIssueDetailInfo] = useState<IssueDetailProps>({});
+  const [issueDetailInfo, setIssueDetailInfo] = useState<IssueDetailProps>({
+    id: 0,
+    number: 0,
+    title: '',
+    comments: 0,
+    createdAt: null,
+    body: '',
+    userId: 0,
+    author: '',
+    profileUrl: '',
+    profileLink: '',
+  });
 
   const getIssueListInfo = (issues: IssueProps[]) => {
-    setIssueListInfo(issues);
+    setIssueListInfo((prev: IssueProps[]) => [...prev, ...issues]);
   };
 
   const getIssueDetailInfo = (issueDetail: IssueDetailProps) => {

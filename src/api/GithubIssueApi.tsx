@@ -7,12 +7,15 @@ import {
 } from '../types/IssueListTypes';
 import { IssueDetailProps } from '../types/IssueDetailTyes';
 
+const PER_PAGE = 10;
+
 const GITHUB_API_KEY = import.meta.env.VITE_GITHUB_API_KEY;
 const BASE_URL = 'https://api.github.com/repos';
 const params = {
   state: 'open',
   sort: 'comments',
   direction: 'desc',
+  per_page: `${PER_PAGE}`,
 };
 const headers = {
   Accept: 'application/vnd.github.v3+json',
@@ -30,11 +33,21 @@ class GithubAPIManager {
       headers,
     });
   }
-  async getIssueList(owner: string, repo: string) {
+  async getIssueList(owner: string, repo: string, page: number) {
     try {
-      const response = await this.axiosInstance.get(`/${owner}/${repo}/issues`);
+      const response = await this.axiosInstance.get(
+        `/${owner}/${repo}/issues`,
+        {
+          params: {
+            ...params,
+            page,
+          },
+        }
+      );
+
       const issues = response.data.map(
         (issue: IssueOriginProps): IssueProps => ({
+          id: issue.id,
           issueNumber: issue.number,
           title: issue.title,
           author: issue.user.login,

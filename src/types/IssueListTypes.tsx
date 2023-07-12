@@ -74,6 +74,7 @@ export interface LabelProps {
 }
 
 export interface IssueProps {
+  id: number;
   issueNumber: number;
   title: string;
   author: string;
