@@ -1,8 +1,10 @@
+import { IssueList, Header } from '@/components';
+
 export function App() {
   return (
     <>
-      <h1>test</h1>
-      <div>메인</div>
+      <Header />
+      <IssueList />
     </>
   );
 }

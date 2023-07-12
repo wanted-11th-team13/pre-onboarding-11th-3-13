@@ -1,3 +1,7 @@
-function Header() {
-  return <h1>This is Header</h1>;
+export function Header() {
+  return (
+    <header>
+      <h1>This is Header</h1>
+    </header>
+  );
 }
