@@ -1,0 +1,129 @@
+{
+  "data": {
+    "url": "https://api.github.com/repos/facebook/react/issues/13991",
+    "repository_url": "https://api.github.com/repos/facebook/react",
+    "labels_url": "https://api.github.com/repos/facebook/react/issues/13991/labels{/name}",
+    "comments_url": "https://api.github.com/repos/facebook/react/issues/13991/comments",
+    "events_url": "https://api.github.com/repos/facebook/react/issues/13991/events",
+    "html_url": "https://github.com/facebook/react/issues/13991",
+    "id": 374587589,
+    "node_id": "MDU6SXNzdWUzNzQ1ODc1ODk=",
+    "number": 13991,
+    "title": "Hooks + multiple instances of React",
+    "user": {
+      "login": "brunolemos",
+      "id": 619186,
+      "node_id": "MDQ6VXNlcjYxOTE4Ng==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/619186?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/brunolemos",
+      "html_url": "https://github.com/brunolemos",
+      "followers_url": "https://api.github.com/users/brunolemos/followers",
+      "following_url": "https://api.github.com/users/brunolemos/following{/other_user}",
+      "gists_url": "https://api.github.com/users/brunolemos/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/brunolemos/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/brunolemos/subscriptions",
+      "organizations_url": "https://api.github.com/users/brunolemos/orgs",
+      "repos_url": "https://api.github.com/users/brunolemos/repos",
+      "events_url": "https://api.github.com/users/brunolemos/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/brunolemos/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 710375792,
+        "node_id": "MDU6TGFiZWw3MTAzNzU3OTI=",
+        "url": "https://api.github.com/repos/facebook/react/labels/Type:%20Discussion",
+        "name": "Type: Discussion",
+        "color": "fef2c0",
+        "default": false,
+        "description": null
+      },
+      {
+        "id": 1109410193,
+        "node_id": "MDU6TGFiZWwxMTA5NDEwMTkz",
+        "url": "https://api.github.com/repos/facebook/react/labels/Component:%20Hooks",
+        "name": "Component: Hooks",
+        "color": "c2f27b",
+        "default": false,
+        "description": ""
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [],
+    "milestone": null,
+    "comments": 475,
+    "created_at": "2018-10-27T00:34:08Z",
+    "updated_at": "2023-07-12T07:14:04Z",
+    "closed_at": null,
+    "author_association": "NONE",
+    "active_lock_reason": null,
+    "body": "# To people coming from search: please [read this page first](https://reactjs.org/warnings/invalid-hook-call-warning.html). It contains most common possible fixes!\r\n\r\n\r\n\r\n**Do you want to request a *feature* or report a *bug*?**\r\n\r\nEnhancement\r\n\r\n**What is the current behavior?**\r\n\r\nI had multiple instances of React by mistake.\r\n\r\nWhen trying to use hooks, got this error:\r\n`hooks can only be called inside the body of a function component`\r\n\r\nWhich is not correct since I was using function components. Took me a while to find the real cause of the issue.\r\n\r\n**What is the expected behavior?**\r\n\r\nShow the correct error message. Maybe detect that the app has multiple instances of React and say that it may be the reason of bugs. ",
+    "closed_by": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/facebook/react/issues/13991/reactions",
+      "total_count": 339,
+      "+1": 265,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 2,
+      "confused": 2,
+      "heart": 15,
+      "rocket": 31,
+      "eyes": 24
+    },
+    "timeline_url": "https://api.github.com/repos/facebook/react/issues/13991/timeline",
+    "performed_via_github_app": null,
+    "state_reason": null
+  },
+  "status": 200,
+  "statusText": "",
+  "headers": {
+    "cache-control": "private, max-age=60, s-maxage=60",
+    "content-type": "application/json; charset=utf-8",
+    "etag": "W/\"d21ccb5bc30b0730708a05b65a46f4fafd5732c3108731de7e12663af3f4389b\"",
+    "last-modified": "Wed, 12 Jul 2023 07:14:04 GMT",
+    "x-accepted-oauth-scopes": "repo",
+    "x-github-media-type": "github.v3; format=json",
+    "x-github-request-id": "F2DB:667B:40C90:481B7:64AE940F",
+    "x-oauth-scopes": "repo",
+    "x-ratelimit-limit": "5000",
+    "x-ratelimit-remaining": "4993",
+    "x-ratelimit-reset": "1689163251",
+    "x-ratelimit-resource": "core",
+    "x-ratelimit-used": "7"
+  },
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": ["xhr", "http"],
+    "transformRequest": [null],
+    "transformResponse": [null],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/vnd.github.v3+json",
+      "Authorization": "Bearer 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",
+      "X-GitHub-Api-Version": "2022-11-28"
+    },
+    "baseURL": "https://api.github.com/repos",
+    "params": {
+      "state": "open",
+      "sort": "comments",
+      "direction": "desc"
+    },
+    "method": "get",
+    "url": "/facebook/react/issues/13991"
+  },
+  "request": {}
+}

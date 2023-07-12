@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import NotFound from './NotFound';
-import IssueList from './pages/IssueList/issueList';
+import IssueList from './pages/IssueList/IssueList';
 import IssueDetail from './pages/IssueDetail/IssueDetail';
 import { IssueProvider } from './context/IssueContext';
 import { LoadingProvider } from './context/LoadingContext';
