@@ -6,7 +6,6 @@ import NotFound from './NotFound';
 import IssueList from './pages/IssueList/IssueList';
 import IssueDetail from './pages/IssueDetail/IssueDetail';
 import { IssueProvider } from './context/IssueContext';
-import { LoadingProvider } from './context/LoadingContext';
 
 const router = createBrowserRouter([
   {
@@ -25,10 +24,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <LoadingProvider>
-      <IssueProvider>
-        <RouterProvider router={router} />
-      </IssueProvider>
-    </LoadingProvider>
+    <IssueProvider>
+      <RouterProvider router={router} />
+    </IssueProvider>
   </React.StrictMode>
 );
