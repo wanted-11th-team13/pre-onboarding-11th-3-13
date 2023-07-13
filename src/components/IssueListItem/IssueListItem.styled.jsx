@@ -11,9 +11,10 @@ export const IssueList = styled.li`
   padding: 20px 0 20px 0;
   position: relative;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
 `;
 
-export const IssueTitle = styled(Link)`
+export const IssueTitle = styled.span`
   font-weight: 600;
   font-size: 18px;
   text-decoration: none;

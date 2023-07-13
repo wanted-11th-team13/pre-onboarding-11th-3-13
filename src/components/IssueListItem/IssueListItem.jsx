@@ -2,10 +2,10 @@ import * as S from './IssueListItem.styled';
 import moment from 'moment';
 
 // eslint-disable-next-line react/prop-types
-export function IssueListItem({ issue, children }) {
+export function IssueListItem({ issue, children, ...restProps }) {
   return (
     <>
-      <S.IssueList key={issue.id}>
+      <S.IssueList key={issue.id} {...restProps}>
         <S.IssueContainer>
           <S.IssueNumber>#{issue.number}</S.IssueNumber>
           <S.IssueTitle>{issue.title}</S.IssueTitle>
