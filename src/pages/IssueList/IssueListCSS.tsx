@@ -7,6 +7,13 @@ export const flexAlign = css`
   align-items: center;
 `;
 
+export const filterLoading = css`
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 50px;
+`;
+
 export const listStyle = css`
   list-style: none;
   margin: 0 auto;

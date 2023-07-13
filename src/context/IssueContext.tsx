@@ -1,12 +1,23 @@
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 import { IssueProps } from '../types/IssueListTypes';
-import { IssueDetailProps } from '../types/IssueDetailTyes';
+import { IssueDetailProps } from '../types/IssueDetailTypes';
+import {
+  DirectionFilter,
+  SortFilter,
+  StateFilter,
+} from '../types/IssueFilterTypes';
 
 type IssueContextProps = {
   issueListInfo: IssueProps[];
   issueDetailInfo: IssueDetailProps;
-  getIssueListInfo: (issueList: IssueProps[]) => void;
+  getIssueListInfo: (issueList: IssueProps[], isAppend: boolean) => void;
   getIssueDetailInfo: (issueDetail: IssueDetailProps) => void;
+  stateFilter: StateFilter;
+  setStateFilter: (state: StateFilter) => void;
+  sortFilter: SortFilter;
+  setSortFilter: (sort: SortFilter) => void;
+  directionFilter: DirectionFilter;
+  setDirectionFilter: (direction: DirectionFilter) => void;
 };
 
 const IssueContext = createContext<IssueContextProps>({
@@ -25,6 +36,12 @@ const IssueContext = createContext<IssueContextProps>({
   },
   getIssueListInfo: () => {},
   getIssueDetailInfo: () => {},
+  stateFilter: StateFilter.Open,
+  setStateFilter: () => {},
+  sortFilter: SortFilter.Comments,
+  setSortFilter: () => {},
+  directionFilter: DirectionFilter.Desc,
+  setDirectionFilter: () => {},
 });
 
 interface IssueProviderProps {
@@ -46,8 +63,16 @@ export function IssueProvider({ children }: IssueProviderProps) {
     profileLink: '',
   });
 
-  const getIssueListInfo = (issues: IssueProps[]) => {
-    setIssueListInfo((prev: IssueProps[]) => [...prev, ...issues]);
+  const [stateFilter, setStateFilter] = useState<StateFilter>(StateFilter.Open);
+  const [sortFilter, setSortFilter] = useState<SortFilter>(SortFilter.Comments);
+  const [directionFilter, setDirectionFilter] = useState<DirectionFilter>(
+    DirectionFilter.Desc
+  );
+
+  const getIssueListInfo = (issues: IssueProps[], isAppend: boolean = true) => {
+    setIssueListInfo((prev: IssueProps[]) =>
+      isAppend ? [...prev, ...issues] : [...issues]
+    );
   };
 
   const getIssueDetailInfo = (issueDetail: IssueDetailProps) => {
@@ -61,6 +86,12 @@ export function IssueProvider({ children }: IssueProviderProps) {
         getIssueListInfo,
         issueDetailInfo,
         getIssueDetailInfo,
+        stateFilter,
+        setStateFilter,
+        sortFilter,
+        setSortFilter,
+        directionFilter,
+        setDirectionFilter,
       }}
     >
       {children}

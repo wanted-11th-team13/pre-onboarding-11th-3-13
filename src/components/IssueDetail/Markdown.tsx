@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { IssueDetailProps } from '../../types/IssueDetailTyes';
+import { IssueDetailProps } from '../../types/IssueDetailTypes';
 
 interface MarkdownProps {
   issueDetailInfo: IssueDetailProps;

@@ -5,18 +5,16 @@ import {
   LabelOrginProps,
   LabelProps,
 } from '../types/IssueListTypes';
-import { IssueDetailProps } from '../types/IssueDetailTyes';
+import { IssueDetailProps } from '../types/IssueDetailTypes';
+import {
+  DirectionFilter,
+  SortFilter,
+  StateFilter,
+} from '../types/IssueFilterTypes';
 
-const PER_PAGE = 10;
-
+const GITHUB_BASE_URL = import.meta.env.VITE_GITHUB_BASE_URL;
 const GITHUB_API_KEY = import.meta.env.VITE_GITHUB_API_KEY;
-const BASE_URL = 'https://api.github.com/repos';
-const params = {
-  state: 'open',
-  sort: 'comments',
-  direction: 'desc',
-  per_page: `${PER_PAGE}`,
-};
+
 const headers = {
   Accept: 'application/vnd.github.v3+json',
   Authorization: `Bearer ${GITHUB_API_KEY}`,
@@ -28,18 +26,26 @@ class GithubAPIManager {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: `${BASE_URL}`,
-      params,
+      baseURL: `${GITHUB_BASE_URL}`,
       headers,
     });
   }
-  async getIssueList(owner: string, repo: string, page: number) {
+  async getIssueList(
+    owner: string,
+    repo: string,
+    page: number,
+    state: StateFilter,
+    sort: SortFilter,
+    direction: DirectionFilter
+  ) {
     try {
       const response = await this.axiosInstance.get(
         `/${owner}/${repo}/issues`,
         {
           params: {
-            ...params,
+            state,
+            sort,
+            direction,
             page,
           },
         }
