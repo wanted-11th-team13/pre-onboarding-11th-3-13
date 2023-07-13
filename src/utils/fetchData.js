@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IssueNumber } from '../components/IssueListItem/IssueListItem.styled';
 
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 const repoOwner = 'facebook';
@@ -24,10 +23,10 @@ export const getIssueList = async (perPage, Page) => {
   }
 };
 
-const getIssue = async () => {
+export const getIssue = async (issueNumber) => {
   try {
     const response = await axios.get(
-      `https://api.github.com/repos/${repoOwner}/${repo}/issues/${IssueNumber}`,
+      `https://api.github.com/repos/${repoOwner}/${repo}/issues/${issueNumber}`,
       {
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',

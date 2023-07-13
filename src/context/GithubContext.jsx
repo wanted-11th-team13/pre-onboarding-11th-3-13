@@ -1,10 +1,11 @@
 import { createContext, useState } from 'react';
-import { getIssueList } from '../utils';
+import { getIssue, getIssueList } from '@/utils';
 
 const initialContext = {
   issueList: [],
   issue: null,
   fetchIssueList: () => {}, // null
+  fetchIssue: () => {},
 };
 
 export const GithubContext = createContext(initialContext);
@@ -14,6 +15,7 @@ export const GithubProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [issueList, setIssueList] = useState([]);
+  const [issue, setIssue] = useState(null);
 
   const fetchIssueList = async () => {
     setIsLoading(true);
@@ -26,9 +28,22 @@ export const GithubProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
+
+  const fetchIssue = async (issueNumber) => {
+    setIsLoading(true);
+    try {
+      const data = await getIssue(issueNumber);
+      setIssue(data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <GithubContext.Provider
-      value={{ issueList, fetchIssueList, error, isLoading }}
+      value={{ issueList, fetchIssueList, error, isLoading, issue, fetchIssue }}
     >
       {children}
     </GithubContext.Provider>
