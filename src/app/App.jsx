@@ -7,7 +7,7 @@ export function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/detail:number" element={<DetailPage />} />
+        <Route path="/detail/:number" element={<DetailPage />} />
       </Routes>
     </BrowserRouter>
   );

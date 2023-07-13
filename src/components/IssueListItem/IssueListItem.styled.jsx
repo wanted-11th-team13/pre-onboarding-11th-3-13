@@ -32,9 +32,7 @@ export const IssueWriter = styled.span`
   color: #333;
 `;
 
-export const IssueDate = styled.span`
-  /* background-color: gray; */
-`;
+export const IssueDate = styled.span``;
 
 export const IssueComments = styled.span`
   /* background-color: darkblue; */

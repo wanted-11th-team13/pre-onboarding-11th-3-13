@@ -20,7 +20,7 @@ export function IssueList() {
         (index + 1) % 4 === 0 ? (
           <IssueListItem
             onClick={() => {
-              navigate(`/detail/${issue.id}`);
+              navigate(`/detail/${issue.number}`);
             }}
             key={issue.id}
             issue={issue}
@@ -30,7 +30,7 @@ export function IssueList() {
         ) : (
           <IssueListItem
             onClick={() => {
-              navigate(`/detail/${issue.id}`);
+              navigate(`/detail/${issue.number}`);
             }}
             key={issue.id}
             issue={issue}
@@ -39,7 +39,7 @@ export function IssueList() {
       )}
     </IssueWrap>
   ) : (
-    <>loading...</>
+    <>Loading...</>
   );
 }
 
