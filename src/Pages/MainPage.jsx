@@ -5,7 +5,9 @@ function MainPage() {
   return (
     <>
       <Header />
-      <IssueList />
+      <main>
+        <IssueList />
+      </main>
     </>
   );
 }

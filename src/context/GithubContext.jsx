@@ -11,18 +11,25 @@ export const GithubContext = createContext(initialContext);
 
 // eslint-disable-next-line react/prop-types
 export const GithubProvider = ({ children }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [issueList, setIssueList] = useState([]);
 
   const fetchIssueList = async () => {
+    setIsLoading(true);
     try {
       const data = await getIssueList();
       setIssueList(data);
     } catch (error) {
-      console.error(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
-    <GithubContext.Provider value={{ issueList, fetchIssueList }}>
+    <GithubContext.Provider
+      value={{ issueList, fetchIssueList, error, isLoading }}
+    >
       {children}
     </GithubContext.Provider>
   );

@@ -1,13 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const IssueWrap = styled.ul`
-  list-style: none;
-  width: 70%;
-  margin: 0 auto;
-  padding: 0;
-`;
-
 export const IssueContainer = styled.div`
   /* background-color: blueviolet; */
   margin-bottom: 10px;
