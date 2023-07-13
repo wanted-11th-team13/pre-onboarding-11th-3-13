@@ -1,11 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useRef, useState } from 'react';
-import { useLoadingContext } from '../../context/LoadingContext';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { githubApi } from '../../api/GithubIssueApi';
 import { IssueInfo, useIssueContext } from '../../context/IssueContext';
 import { useNavigate } from 'react-router-dom';
 import { css } from '@emotion/react';
-import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 
 const flexAlign = css`
   display: flex;
@@ -67,10 +65,6 @@ const line = css`
   margin: 10px 0;
 `;
 
-const refPosition = css`
-  height: 50px;
-`;
-
 const adImg = css`
   height: 200px;
   margin-bottom: 30px;
@@ -91,71 +85,38 @@ const adTag = css`
 `;
 
 export default function IssueList() {
-  const { isLoading, setLoading } = useLoadingContext();
-  const { issueListInfo, getIssueListInfo } = useIssueContext();
-
-  const [page, setPage] = useState(1);
-  const targetRef = useRef<HTMLDivElement>(null);
-
-  const listRef = useRef<HTMLUListElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [scrollPositionToRestore, setScrollPositionToRestore] = useState(0);
-
-  const [observe, unobserve] = useIntersectionObserver(() => {
-    if (!isLoading) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  }, isLoading);
-
   const owner = IssueInfo.OWNER;
   const repo = IssueInfo.REPO;
-
+  const { issueListInfo, getIssueListInfo } = useIssueContext();
+  const [isDataLoading, setIsDataloading] = useState(false);
+  const [page, setPage] = useState(1);
+  const observer = useRef<IntersectionObserver | null>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(listRef.current?.scrollTop || 0);
-    };
-    listRef.current?.addEventListener('scroll', handleScroll);
-    return () => {
-      listRef.current?.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (listRef.current) {
-      if (scrollPositionToRestore !== scrollPosition) {
-        listRef.current.scrollTop = scrollPositionToRestore;
-      }
-    }
-  }, [issueListInfo]);
-
-  useEffect(() => {
-    if (targetRef.current) {
-      observe(targetRef.current);
-    }
-
-    return () => {
-      if (targetRef.current) {
-        unobserve(targetRef.current);
-      }
-    };
-  }, [observe, unobserve]);
+  const lastIssueElementRef = useCallback(
+    (node: HTMLLIElement) => {
+      if (isDataLoading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [isDataLoading]
+  );
 
   useEffect(() => {
     const getIssueLists = async () => {
-      setLoading(true);
-
+      setIsDataloading(true);
       try {
         const issueListData = await githubApi.getIssueList(owner, repo, page);
-        const currentScrollPosition = listRef.current?.scrollTop || 0;
         getIssueListInfo(issueListData);
-
-        setScrollPositionToRestore(currentScrollPosition);
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setIsDataloading(false);
       }
     };
     getIssueLists();
@@ -165,78 +126,75 @@ export default function IssueList() {
 
   return (
     <div>
-      {isLoading && <div>로딩중입니다.</div>}
-      {!isLoading && (
-        <ul css={listStyle} ref={listRef}>
-          {issueListInfo?.map((issue, index) => {
-            const issueId = issue.issueNumber;
-            const date = issue.createdAt.split('T')[0].split('-');
-            const isAdZone = adZone(index);
-            return (
-              <li
-                css={[itemStyle]}
-                key={index}
-                onClick={() => {
-                  if (isAdZone) {
-                    window.location.href = 'https://www.wanted.co.kr/';
-                  } else {
-                    navigate(`/issue/${issueId}`, {
-                      state: {
-                        owner,
-                        repo,
-                        issueId,
-                      },
-                    });
-                  }
-                }}
-              >
-                {isAdZone ? (
-                  <div css={adImg}>
-                    <img
-                      style={{ width: '100%' }}
-                      src="https://images.unsplash.com/photo-1495783436593-3015f0bc6f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGFkdmVydGlzaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60"
-                      alt="광고 이미지"
-                    />
-                    <div css={adTag}>ad</div>
-                  </div>
-                ) : (
-                  <>
-                    <div css={flexAlign}>
-                      <div>
-                        <div css={issueTitleArea}>
-                          <div>{index}</div>
-                          <div>#{issue.issueNumber}</div>
-                          <div css={issueTitle}>
-                            {issue.title.length > 35
-                              ? issue.title.slice(0, 35) + '...'
-                              : issue.title}
-                          </div>
-                        </div>
-                        <div css={issueTextArea}>
-                          <div>작성자: {issue.author}</div>
-                          <div css={issueText}>
-                            작성일: {`${date[0]}년 ${date[1]}월 ${date[2]}일`}
-                          </div>
+      <ul css={listStyle}>
+        {issueListInfo?.map((issue, index) => {
+          const issueId = issue.issueNumber;
+          const date = issue.createdAt.split('T')[0].split('-');
+          const isAdZone = adZone(index);
+          return (
+            <li
+              ref={lastIssueElementRef}
+              css={[itemStyle]}
+              key={index}
+              onClick={() => {
+                if (isAdZone) {
+                  window.location.href = 'https://www.wanted.co.kr/';
+                } else {
+                  navigate(`/issue/${issueId}`, {
+                    state: {
+                      owner,
+                      repo,
+                      issueId,
+                    },
+                  });
+                }
+              }}
+            >
+              {isAdZone ? (
+                <div css={adImg}>
+                  <img
+                    style={{ width: '100%' }}
+                    src="https://images.unsplash.com/photo-1495783436593-3015f0bc6f56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGFkdmVydGlzaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60"
+                    alt="광고 이미지"
+                  />
+                  <div css={adTag}>ad</div>
+                </div>
+              ) : (
+                <>
+                  <div css={flexAlign}>
+                    <div>
+                      <div css={issueTitleArea}>
+                        <div>{index}</div>
+                        <div>#{issue.issueNumber}</div>
+                        <div css={issueTitle}>
+                          {issue.title.length > 35
+                            ? issue.title.slice(0, 35) + '...'
+                            : issue.title}
                         </div>
                       </div>
-                      <div css={commentStyle}>코멘트: {issue.commentCount}</div>
+                      <div css={issueTextArea}>
+                        <div>작성자: {issue.author}</div>
+                        <div css={issueText}>
+                          작성일: {`${date[0]}년 ${date[1]}월 ${date[2]}일`}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      {issue.labels.map((label) => (
-                        <button key={label.id} css={labelStyle(label.color)}>
-                          {label.name}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-                <div css={line} />
-              </li>
-            );
-          })}
-        </ul>
-      )}
-      <div ref={targetRef} css={refPosition} />
+                    <div css={commentStyle}>코멘트: {issue.commentCount}</div>
+                  </div>
+                  <div>
+                    {issue.labels.map((label) => (
+                      <button key={label.id} css={labelStyle(label.color)}>
+                        {label.name}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+              <div css={line} />
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

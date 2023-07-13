@@ -1,9 +1,8 @@
 /* eslint-disable react/no-children-prop */
 /** @jsxImportSource @emotion/react */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useLoadingContext } from '../../context/LoadingContext';
 import { githubApi } from '../../api/GithubIssueApi';
 import { useIssueContext } from '../../context/IssueContext';
 import ReactMarkdown from 'react-markdown';
@@ -65,7 +64,7 @@ const line = css`
 `;
 
 export default function IssueDetail() {
-  const { isLoading, setLoading } = useLoadingContext();
+  const [isLoading, setIsLoading] = useState(false);
   const { issueDetailInfo, getIssueDetailInfo } = useIssueContext();
   const location = useLocation();
   const issueId = location.state.issueId;
@@ -74,7 +73,7 @@ export default function IssueDetail() {
 
   useEffect(() => {
     const getIssueDetail = async () => {
-      setLoading(true);
+      setIsLoading(true);
 
       try {
         const issueDetailData = await githubApi.getIssueDetail(
@@ -86,7 +85,7 @@ export default function IssueDetail() {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     getIssueDetail();
