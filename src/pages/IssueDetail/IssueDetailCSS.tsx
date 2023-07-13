@@ -1,6 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+export const detailLoading = css`
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 50px;
+`;
+
 export const goToBackBtn = css`
   width: 50px;
   height: 50px;

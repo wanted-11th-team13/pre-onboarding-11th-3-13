@@ -7,6 +7,7 @@ import { githubApi } from '../../api/GithubIssueApi';
 import { useIssueContext } from '../../context/IssueContext';
 import {
   commentStyle,
+  detailLoading,
   flexAlign,
   goToBackBtn,
   imgFlexAlign,
@@ -28,6 +29,10 @@ export default function IssueDetail() {
   const repo = location.state.repo;
   const navigate = useNavigate();
 
+  const goToBack = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     const getIssueDetail = async () => {
       setIsLoading(true);
@@ -48,17 +53,13 @@ export default function IssueDetail() {
     getIssueDetail();
   }, []);
 
-  const goToBack = () => {
-    navigate(-1);
-  };
-
   const date = issueDetailInfo.createdAt
     ? issueDetailInfo.createdAt.split('T')[0].split('-')
     : [];
 
   return (
     <div>
-      {isLoading && <div>로딩중</div>}
+      {isLoading && <div css={detailLoading}>Detail Loading...</div>}
       {!isLoading && (
         <div>
           <button css={goToBackBtn} onClick={goToBack}>
