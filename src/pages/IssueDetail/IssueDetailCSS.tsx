@@ -1,6 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
+export const goToBackBtn = css`
+  width: 50px;
+  height: 50px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  position: absolute;
+  top: 45px;
+  left: 50px;
+  cursor: pointer;
+`;
+
 export const flexAlign = css`
   display: flex;
   justify-content: space-between;

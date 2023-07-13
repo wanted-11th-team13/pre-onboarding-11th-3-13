@@ -2,12 +2,13 @@
 /** @jsxImportSource @emotion/react */
 
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { githubApi } from '../../api/GithubIssueApi';
 import { useIssueContext } from '../../context/IssueContext';
 import {
   commentStyle,
   flexAlign,
+  goToBackBtn,
   imgFlexAlign,
   imgSize,
   issueText,
@@ -16,6 +17,7 @@ import {
   line,
 } from './IssueDetailCSS';
 import Markdown from '../../components/IssueDetail/Markdown';
+import { GoBack } from '../../assets/icons';
 
 export default function IssueDetail() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +26,7 @@ export default function IssueDetail() {
   const issueId = location.state.issueId;
   const owner = location.state.owner;
   const repo = location.state.repo;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getIssueDetail = async () => {
@@ -45,6 +48,10 @@ export default function IssueDetail() {
     getIssueDetail();
   }, []);
 
+  const goToBack = () => {
+    navigate(-1);
+  };
+
   const date = issueDetailInfo.createdAt
     ? issueDetailInfo.createdAt.split('T')[0].split('-')
     : [];
@@ -54,6 +61,9 @@ export default function IssueDetail() {
       {isLoading && <div>로딩중</div>}
       {!isLoading && (
         <div>
+          <button css={goToBackBtn} onClick={goToBack}>
+            <GoBack />
+          </button>
           <div css={flexAlign}>
             <div>
               <div css={imgFlexAlign}>
