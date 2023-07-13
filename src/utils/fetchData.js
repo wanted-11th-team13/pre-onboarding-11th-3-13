@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
-export const getIssueList = async () => {
+export const getIssueList = async (perPage, Page) => {
   try {
     const response = await axios.get(
-      'https://api.github.com/repos/facebook/react/issues?per_page=100&sort=comments', // per_page = Query parameters
+      `https://api.github.com/repos/facebook/react/issues?per_page=${perPage}&page=${Page}&sort=comments`, // per_page = Query parameters
       {
         headers: {
           'X-GitHub-Api-Version': '2022-11-28',

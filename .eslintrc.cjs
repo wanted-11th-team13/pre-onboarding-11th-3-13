@@ -27,6 +27,7 @@ module.exports = {
     'react/no-unknown-property': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/prop-types': ['off'],
     'jsx-a11y/anchor-has-content': [
       'warn',
       {
