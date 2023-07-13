@@ -68,7 +68,9 @@ const IssueTopText = styled.section`
   }
 `;
 
-const IssueBody = styled.section``;
+const IssueBody = styled.section`
+  margin: 50px 0;
+`;
 
 export default function Issue() {
   const params = useParams();

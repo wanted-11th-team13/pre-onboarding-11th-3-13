@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
+import { formatDate } from "../functions/functions";
 
 interface IProps {
   data: IData;
@@ -39,15 +40,19 @@ export default function Issue({ data }: IProps) {
       <Container>
         <Infos>
           <Title>
-            {data.title.length >= 36
-              ? data.title.slice(0, 36) + "..."
-              : data.title}
+            {`#${data.number}  ${
+              data.title.length >= 30
+                ? data.title.slice(0, 30) + "..."
+                : data.title
+            }`}
           </Title>
           <CommentNum>{`코멘트: ${data.comments}`}</CommentNum>
         </Infos>
         <Infos>
           <PostInfo>
-            {`작성자: ${data.user.login}, 작성일: ${data.updated_at}`}
+            {`작성자: ${data.user.login}, 작성일: ${formatDate(
+              data.updated_at
+            )}`}
           </PostInfo>
         </Infos>
       </Container>

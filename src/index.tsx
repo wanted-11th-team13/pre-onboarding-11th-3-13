@@ -6,6 +6,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/router";
 import RepoProvider from "./Context/RepoProvider";
 import { OwnerProvider } from "./Context/OwnerProvider";
+import { EditKeywordProvider } from "./Context/EditKeywordProvider";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -78,7 +79,9 @@ root.render(
     <GlobalStyle />
     <RepoProvider>
       <OwnerProvider>
-        <RouterProvider router={router} />
+        <EditKeywordProvider>
+          <RouterProvider router={router} />
+        </EditKeywordProvider>
       </OwnerProvider>
     </RepoProvider>
   </>

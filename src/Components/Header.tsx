@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import useRepoState from "../Context/useRepoState";
 import useOwnerState from "../Context/useOwnerState";
 import { useState } from "react";
+import useEditKeywordState from "../Context/useEditKeywordState";
 
 const Container = styled.header`
   display: flex;
@@ -57,7 +58,7 @@ const Button = styled.button`
 export default function Header() {
   const [repo, setRepo] = useRepoState();
   const [owner, setOwner] = useOwnerState();
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useEditKeywordState();
 
   return (
     <Container>
@@ -82,7 +83,7 @@ export default function Header() {
         <Text>{`${owner}  ${repo}`}</Text>
       )}
       <Button onClick={() => setEdit((prev: boolean) => !prev)}>
-        {edit ? "확인" : "수정"}
+        {edit ? "찾기" : "수정"}
       </Button>
     </Container>
   );
