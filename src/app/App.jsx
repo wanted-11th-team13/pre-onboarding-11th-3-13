@@ -1,12 +1,14 @@
 import { IssueList, Header } from '@/components';
-import { GithubProvider } from '../context/GithubContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainPage from '../Pages/MainPage';
 
 export function App() {
   return (
-    <GithubProvider>
-      <Header />
-      <IssueList />
-    </GithubProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

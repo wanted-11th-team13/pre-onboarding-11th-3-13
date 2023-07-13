@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const IssueWrap = styled.ul`
@@ -19,9 +20,11 @@ export const IssueList = styled.li`
   border-bottom: 1px solid #ccc;
 `;
 
-export const IssueTitle = styled.span`
+export const IssueTitle = styled(Link)`
   font-weight: 600;
   font-size: 18px;
+  text-decoration: none;
+  color: inherit;
 `;
 
 export const IssueNumber = styled.span`
