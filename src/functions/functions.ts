@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const emptyData: IData = {
   url: "",
   repository_url: "",
@@ -106,3 +108,10 @@ export function formatDate(date: string) {
 
   return formattedDate;
 }
+
+export const axiosInstance = axios.create({
+  baseURL: "https://api.github.com",
+  headers: {
+    Authorization: `Bearer ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}`,
+  },
+});

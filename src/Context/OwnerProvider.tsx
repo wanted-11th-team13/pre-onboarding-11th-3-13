@@ -7,8 +7,11 @@ interface IProps {
 
 export function OwnerProvider({ children }: IProps) {
   const ownerState = useState("Angular");
+  const ownerRecordState = useState("Angular");
 
   return (
-    <OwnerContext.Provider value={ownerState}>{children}</OwnerContext.Provider>
+    <OwnerContext.Provider value={[...ownerState, ...ownerRecordState]}>
+      {children}
+    </OwnerContext.Provider>
   );
 }

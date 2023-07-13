@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useOwnerState from "../Context/useOwnerState";
 import useRepoState from "../Context/useRepoState";
 import { emptyData } from "../functions/functions";
@@ -7,46 +7,53 @@ import { emptyData } from "../functions/functions";
 const per_page = 1000;
 const offset = 5;
 
+let allDatas: IData[] = [];
+
 export default function useDatas() {
-  let allDatas: IData[] = [];
   let sliceIdx = 10;
 
   const [datas, setDatas] = useState<IData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
-  const [repo] = useRepoState();
-  const [owner] = useOwnerState();
+  const [repo, , befRepo, setBefRepo] = useRepoState();
+  const [owner, , befOwner, setBefOwner] = useOwnerState();
 
   useEffect(() => {
-    (async () => {
-      sliceIdx = 10;
-      allDatas = [];
+    if (repo !== befRepo || owner !== befOwner || allDatas.length === 0) {
+      setBefRepo(repo);
+      setBefOwner(owner);
 
-      setIsAdding((prev) => true);
-      setIsLoading((prev) => true);
-
-      try {
-        const response = await axios.get(
-          `https://api.github.com/repos/${owner}/${repo}/issues?per_page=${per_page}&sort=comments&direction=desc&state=open`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}`,
-            },
-          }
-        );
-
-        allDatas = response.data as IData[];
-        setDatas((prev) => response.data.slice(0, sliceIdx));
-      } catch (error) {
-        allDatas = [];
-        setDatas((prev) => []);
-      }
-
-      setIsAdding((prev) => false);
-      setIsLoading((prev) => false);
-    })();
+      getAllData();
+    } else {
+      setDatas(allDatas.slice(0, 10));
+    }
   }, [repo, owner]);
+
+  const getAllData = async () => {
+    setIsAdding(true);
+    setIsLoading(true);
+
+    try {
+      const response = await axios.get(
+        `https://api.github.com/repos/${owner}/${repo}/issues?per_page=${per_page}&sort=comments&direction=desc&state=open`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}`,
+          },
+        }
+      );
+
+      allDatas = response.data as IData[];
+      setDatas(allDatas.slice(0, 10));
+    } catch (error) {
+      allDatas = [];
+      setDatas([]);
+    }
+
+    setIsAdding(false);
+    setIsLoading(false);
+  };
 
   const findIssuse = async (issueNumber: number) => {
     try {

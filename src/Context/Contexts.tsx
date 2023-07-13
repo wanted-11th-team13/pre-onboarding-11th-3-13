@@ -1,5 +1,4 @@
-import React, { createContext } from "react";
-import { Dict } from "styled-components/dist/types";
+import { createContext } from "react";
 
 const defaultRepo: any = "Angular-cli";
 const defaultOwner: any = "Angular";

@@ -81,7 +81,7 @@ export default function Header() {
       ) : (
         <Text>{`${owner}  ${repo}`}</Text>
       )}
-      <Button onClick={() => setEdit((prev) => !prev)}>
+      <Button onClick={() => setEdit((prev: boolean) => !prev)}>
         {edit ? "확인" : "수정"}
       </Button>
     </Container>
