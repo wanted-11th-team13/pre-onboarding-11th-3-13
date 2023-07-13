@@ -86,3 +86,8 @@ export const adTag = css`
   background-color: #ff0000;
   color: #ffffff;
 `;
+
+export const scrollLoading = css`
+  font-size: 24px;
+  text-align: center;
+`;

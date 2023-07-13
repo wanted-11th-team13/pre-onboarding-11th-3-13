@@ -3,7 +3,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { githubApi } from '../../api/GithubIssueApi';
 import { IssueInfo, useIssueContext } from '../../context/IssueContext';
 import { useNavigate } from 'react-router-dom';
-import { filterLoading, itemStyle, line, listStyle } from './IssueListCSS';
+import {
+  filterLoading,
+  itemStyle,
+  line,
+  listStyle,
+  scrollLoading,
+} from './IssueListCSS';
 import Ad from '../../components/IssueList/Ad';
 import ListItem from '../../components/IssueList/ListItem';
 import Filter from '../../components/IssueList/Filter';
@@ -107,7 +113,7 @@ export default function IssueList() {
     <div>
       <Filter />
       {isFilterLoading ? (
-        <div css={filterLoading}>Loading...</div>
+        <div css={filterLoading}>Filter Loading...</div>
       ) : (
         <ul css={listStyle}>
           {issueListInfo?.map((issue, index) => {
@@ -115,7 +121,11 @@ export default function IssueList() {
             const isAdZone = adZone(index);
             return (
               <li
-                ref={lastIssueElementRef}
+                ref={
+                  index === issueListInfo.length - 1
+                    ? lastIssueElementRef
+                    : null
+                }
                 css={itemStyle}
                 key={index + issue.title}
                 onClick={() => {
@@ -128,6 +138,9 @@ export default function IssueList() {
             );
           })}
         </ul>
+      )}
+      {isInfiniteScrollLoading && (
+        <div css={scrollLoading}>Scroll Loading...</div>
       )}
     </div>
   );
