@@ -4,7 +4,6 @@ import { Header } from '../components/Header/Header';
 function MainPage() {
   return (
     <>
-      <Header />
       <main>
         <IssueList />
       </main>
