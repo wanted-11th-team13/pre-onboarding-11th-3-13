@@ -22,8 +22,6 @@ export default function useDatas() {
   const [editKeyword] = useEditKeywordState();
 
   useEffect(() => {
-    //  if (repo !== befRepo || owner !== befOwner || allDatas.length === 0)
-
     if (
       (editKeyword === false && (repo !== befRepo || owner !== befOwner)) ||
       allDatas.length === 0

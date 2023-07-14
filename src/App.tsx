@@ -47,6 +47,9 @@ function App() {
 
   useEffect(() => {
     observer.observe(target.current as any);
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
   return (
