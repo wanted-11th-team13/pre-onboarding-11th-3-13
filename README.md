@@ -26,7 +26,7 @@
 
 # 배포
 
-### [원티드 프리온보딩 인턴십 3주차 과제 - 13팀 배포 링크](https://pre-onboarding-11th-3-13.vercel.app/)
+### [원티드 프리온보딩 인턴십 3주차 과제 - 13팀 배포 링크](https://luxury-pastelito-9171a7.netlify.app/)
 
 <br/>
 
