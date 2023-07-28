@@ -19,6 +19,7 @@ function DetailPage() {
     }
   }, []);
 
+
   return !isLoading ? (
     <Wrapper>
       <BoxContainer>
