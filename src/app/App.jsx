@@ -9,7 +9,8 @@ export function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/detail/:number" element={<DetailPage />} />
+        <Route path="/detail/:number(\d+)" element={<DetailPage />} />
+        <Route path="*" element={<>없는페이지요</>} />
       </Routes>
     </BrowserRouter>
   );
