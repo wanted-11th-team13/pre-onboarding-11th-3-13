@@ -10,7 +10,7 @@ export function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/detail/:number" element={<DetailPage />} />
-        <Route path="*" element={<>없는페이지요</>} />
+        <Route path="*" element={<>오류페이지 테스트</>} />
       </Routes>
     </BrowserRouter>
   );
