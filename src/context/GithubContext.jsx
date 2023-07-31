@@ -13,7 +13,7 @@ export const GithubContext = createContext(initialContext);
 // eslint-disable-next-line react/prop-types
 export const GithubProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [fetchError, setFetchError] = useState(null);
   const [issueList, setIssueList] = useState([]);
   const [issue, setIssue] = useState(null);
 
@@ -23,7 +23,7 @@ export const GithubProvider = ({ children }) => {
       const data = await getIssueList();
       setIssueList(data);
     } catch (error) {
-      setError(error);
+      setFetchError(error);
     } finally {
       setIsLoading(false);
     }
@@ -35,7 +35,7 @@ export const GithubProvider = ({ children }) => {
       const data = await getIssue(issueNumber);
       setIssue(data);
     } catch (error) {
-      setError(error);
+      setFetchError(error);
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +43,14 @@ export const GithubProvider = ({ children }) => {
 
   return (
     <GithubContext.Provider
-      value={{ issueList, fetchIssueList, error, isLoading, issue, fetchIssue }}
+      value={{
+        issueList,
+        fetchIssueList,
+        fetchError,
+        isLoading,
+        issue,
+        fetchIssue,
+      }}
     >
       {children}
     </GithubContext.Provider>

@@ -4,15 +4,21 @@ import { IssueListItem } from '../IssueListItem/IssueListItem';
 import { IssueListAd } from '../IssueListAd/IssueListAd';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { ErrorPage } from '../../Pages/ErrorPage';
 
 export function IssueList() {
-  const { issueList, fetchIssueList, isLoading } = useContext(GithubContext);
+  const { issueList, fetchIssueList, isLoading, fetchError } =
+    useContext(GithubContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchIssueList();
   }, []);
+
+  if (fetchError) {
+    return <ErrorPage />;
+  }
 
   return !isLoading ? (
     <IssueWrap>

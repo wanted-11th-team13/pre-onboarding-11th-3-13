@@ -6,10 +6,12 @@ import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
 import moment from 'moment';
+import { ErrorPage } from './ErrorPage';
 
 function DetailPage() {
   const { number } = useParams();
-  const { isLoading, issue, fetchIssue } = useContext(GithubContext);
+  const { isLoading, issue, fetchIssue, fetchError } =
+    useContext(GithubContext);
 
   // console.log('id입니다', number);
   useEffect(() => {
@@ -19,6 +21,9 @@ function DetailPage() {
     }
   }, []);
 
+  if (fetchError) {
+    return <ErrorPage />;
+  }
 
   return !isLoading ? (
     <Wrapper>
