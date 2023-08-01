@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { IssueDetail } from '../components';
-import { GithubContext, GithubProvider } from '../context/GithubContext';
-import React, { useContext, useEffect } from 'react';
+import { GithubContext } from '../context/GithubContext';
+import { useContext, useEffect } from 'react';
 import remarkGfm from 'remark-gfm';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
@@ -25,7 +24,7 @@ function DetailPage() {
     return <ErrorPage />;
   }
 
-  return !isLoading ? (
+  return (
     <Wrapper>
       <BoxContainer>
         <Title>title : {issue?.title}</Title>
@@ -37,8 +36,6 @@ function DetailPage() {
       </BoxContainer>
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{issue?.body}</ReactMarkdown>
     </Wrapper>
-  ) : (
-    <>Loadding...</>
   );
 }
 

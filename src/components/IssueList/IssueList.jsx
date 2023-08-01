@@ -20,7 +20,7 @@ export function IssueList() {
     return <ErrorPage />;
   }
 
-  return !isLoading ? (
+  return (
     <IssueWrap>
       {issueList.map((issue, index) =>
         (index + 1) % 4 === 0 ? (
@@ -44,8 +44,6 @@ export function IssueList() {
         )
       )}
     </IssueWrap>
-  ) : (
-    <>Loading...</>
   );
 }
 
