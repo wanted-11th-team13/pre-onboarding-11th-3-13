@@ -1,20 +1,24 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { GithubContext } from '../../context/GithubContext';
 import { IssueListItem } from '../IssueListItem/IssueListItem';
 import { IssueListAd } from '../IssueListAd/IssueListAd';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ErrorPage } from '../../Pages/ErrorPage';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
+import ScrollObserver from '../ScrollObserver/ScrollObserver';
 
 export function IssueList() {
-  const { issueList, fetchIssueList, isLoading, fetchError } =
-    useContext(GithubContext);
-
+  const { issueList, fetchIssueList, fetchError } = useContext(GithubContext);
   const navigate = useNavigate();
+  const target = useRef(null);
+  const intersecting = useInfiniteScroll(target);
 
   useEffect(() => {
-    fetchIssueList();
-  }, []);
+    if (intersecting) {
+      fetchIssueList();
+    }
+  }, [intersecting]);
 
   if (fetchError) {
     return <ErrorPage />;
@@ -43,6 +47,7 @@ export function IssueList() {
           />
         )
       )}
+      <ScrollObserver ref={target} />
     </IssueWrap>
   );
 }

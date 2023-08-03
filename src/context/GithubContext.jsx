@@ -16,12 +16,15 @@ export const GithubProvider = ({ children }) => {
   const [fetchError, setFetchError] = useState(null);
   const [issueList, setIssueList] = useState([]);
   const [issue, setIssue] = useState(null);
+  const [issueListPage, setIssueListPage] = useState(1);
 
   const fetchIssueList = async () => {
     setIsLoading(true);
     try {
-      const data = await getIssueList();
-      setIssueList(data);
+      const currentPage = issueListPage;
+      const data = await getIssueList(10, currentPage);
+      setIssueListPage((prev) => prev + 1);
+      setIssueList((prevList) => [...prevList, ...data]);
     } catch (error) {
       setFetchError(error);
     } finally {
