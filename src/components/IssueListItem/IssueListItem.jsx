@@ -14,7 +14,7 @@ export function IssueListItem({ issue, children, ...restProps }) {
         <S.IssueDate>
           작성일 : {moment(issue.created_at).format('YYYY-MM-DD')}
         </S.IssueDate>
-        <S.IssueComments>🙋‍♂️{issue.comments}</S.IssueComments>
+        <S.IssueComments>코멘트:{issue.comments}</S.IssueComments>
       </S.IssueList>
       {children}
     </>
